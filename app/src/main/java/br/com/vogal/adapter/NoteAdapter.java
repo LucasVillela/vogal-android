@@ -58,6 +58,8 @@ public class NoteAdapter extends BaseAdapter {
         title.setText(note.getTitle());
         noteText.setText(note.getTextHTML());
 
+        grid.setOnClickListener(getClickListener(position));
+
         return grid;
     }
 
