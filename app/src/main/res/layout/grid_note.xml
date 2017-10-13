@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="100"
-    >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/NOTE_BACKGROUND"
+    android:weightSum="100">
+
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_marginLeft="10dp"
-        android:width="180dp"
-        android:height="30dp"
         android:layout_marginTop="10dp"
-        />
+        android:width="150dp"
+        android:height="30dp"
+        android:text="TextView" />
+
     <TextView
         android:id="@+id/noteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_below="@+id/titleTextView"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:width="180dp"
-        android:height="270dp"
-        android:layout_below="@+id/titleTextView" />
+        android:width="150dp"
+        android:height="150dp"
+        android:text="TextView" />
 </RelativeLayout>

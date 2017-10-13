@@ -10,6 +10,8 @@ import java.util.Date;
 
 public class Notebook {
 
+
+    private String id;
     private String user;
     private String title;
 
@@ -28,6 +30,13 @@ public class Notebook {
     @SerializedName("is_blog_attached")
     private Boolean isBlogAttached;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUser() {
         return user;

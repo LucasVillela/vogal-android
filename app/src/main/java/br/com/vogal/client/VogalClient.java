@@ -3,8 +3,8 @@ package br.com.vogal.client;
 import java.util.List;
 
 import br.com.vogal.model.Login;
-import br.com.vogal.model.Notebook;
 import br.com.vogal.model.Notebooks;
+import br.com.vogal.model.Notes;
 import br.com.vogal.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,4 +23,7 @@ public interface VogalClient {
 
     @GET("notebooks")
     Call<Notebooks> getNotebooks(@Header("Authorization") String authorization);
+
+    @GET("notes")
+    Call<Notes> getNotes(@Header("Authorization") String authorization);
 }

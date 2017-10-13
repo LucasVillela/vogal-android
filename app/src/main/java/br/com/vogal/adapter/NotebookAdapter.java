@@ -1,6 +1,7 @@
 package br.com.vogal.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import org.w3c.dom.Text;
 
 import java.util.List;
 
+import br.com.vogal.model.Note;
 import br.com.vogal.model.Notebook;
+import br.com.vogal.vogal.NoteActivity;
 import br.com.vogal.vogal.R;
 
 /**
@@ -34,6 +37,8 @@ public class NotebookAdapter extends ArrayAdapter<Notebook>{
         this.context = context;
         this.notebookList = notebookList;
     }
+
+
 
     @NonNull
     @Override
@@ -55,7 +60,23 @@ public class NotebookAdapter extends ArrayAdapter<Notebook>{
         totalNotes.setText(new Integer(new Double(Math.random() * 10).intValue()).toString() + " notes");
 
 
+        rowView.setOnClickListener(getClickListener(position));
+
+
         return rowView;
+    }
+
+    private View.OnClickListener getClickListener(final int position){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NoteActivity.class);
+                Notebook notebook = notebookList.get(position);
+                intent.putExtra("notebook",notebook.getId());
+
+                context.startActivity(intent);
+            }
+        };
     }
 
 }

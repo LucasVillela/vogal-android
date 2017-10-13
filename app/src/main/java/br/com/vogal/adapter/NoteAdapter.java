@@ -1,6 +1,7 @@
 package br.com.vogal.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.vogal.model.Note;
+import br.com.vogal.vogal.EditorActivity;
 import br.com.vogal.vogal.R;
 
 /**
@@ -21,7 +23,9 @@ public class NoteAdapter extends BaseAdapter {
     List<Note> noteList;
     Context context;
 
+
     public NoteAdapter(Context context, List<Note> noteList){
+        this.context = context;
         this.noteList = noteList;
     }
 
@@ -51,11 +55,23 @@ public class NoteAdapter extends BaseAdapter {
 
         Note note = noteList.get(position);
 
-        //TODO SETAR VALORES NAS TEXTS VIEWS
-        //title.setText();
-        //noteText.setText();
+        title.setText(note.getTitle());
+        noteText.setText(note.getTextHTML());
 
         return grid;
+    }
+
+    private View.OnClickListener getClickListener(final int position){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Note note = noteList.get(position);
+                Intent intent = new Intent(context, EditorActivity.class);
+                intent.putExtra("note",note.getId());
+
+                context.startActivity(intent);
+            }
+        };
     }
 
     @Override
