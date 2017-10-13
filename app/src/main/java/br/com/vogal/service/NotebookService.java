@@ -6,6 +6,7 @@ import java.util.List;
 
 import br.com.vogal.client.VogalClient;
 import br.com.vogal.model.Notebook;
+import br.com.vogal.model.Notebooks;
 import retrofit2.Call;
 
 /**
@@ -23,7 +24,7 @@ public class NotebookService extends BaseService {
         this.token = session.getToken();
     }
 
-    public Call<List<Notebook>> getNotebooks(){
+    public Call<Notebooks> getNotebooks(){
         return this.vogalClient.getNotebooks(this.token);
     }
 }

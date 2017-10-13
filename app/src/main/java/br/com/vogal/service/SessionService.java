@@ -26,11 +26,18 @@ public class SessionService {
 
     public void createSession(User user){
         editor.putString("username",user.getUsername());
-        editor.putString("token",user.getUsername());
+        editor.putString("token",user.getToken());
         editor.putString("profile_pic",user.getProfilePic());
         editor.putString("email",user.getEmail());
 
         editor.commit();
+    }
+
+    public Boolean isLogged(){
+        if(sharedPreferences.getString("token",null) != null){
+            return true;
+        }
+        return false;
     }
 
     public String getToken(){

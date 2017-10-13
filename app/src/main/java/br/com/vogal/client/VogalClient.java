@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.vogal.model.Login;
 import br.com.vogal.model.Notebook;
+import br.com.vogal.model.Notebooks;
 import br.com.vogal.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +21,6 @@ public interface VogalClient {
     @POST("login")
     Call<User> login(@Body Login login);
 
-    @GET("notebook/")
-    Call<List<Notebook>> getNotebooks(@Header("Authorization") String authorization);
+    @GET("notebooks")
+    Call<Notebooks> getNotebooks(@Header("Authorization") String authorization);
 }

@@ -85,3 +85,5 @@ public class Notebook {
         isBlogAttached = blogAttached;
     }
 }
+
+

@@ -11,6 +11,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.ocpsoft.prettytime.PrettyTime;
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -38,46 +39,23 @@ public class NotebookAdapter extends ArrayAdapter<Notebook>{
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View rowView = inflater.inflate(R.layout.row_notebook, parent, false);
+
+        TextView notebookTitle  = (TextView) rowView.findViewById(R.id.notebookTitleTextView);
+        TextView lastModified  = (TextView) rowView.findViewById(R.id.lastModifiedTextView);
+        TextView totalNotes  = (TextView) rowView.findViewById(R.id.totalNotesTextView);
+
         Notebook notebook = notebookList.get(position);
 
-        NotebookRow notebookRow;
 
-        Integer lastPosition = -1;
-
-        final View result;
-
-        if(convertView != null){
-
-            notebookRow = new NotebookRow();
-            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            convertView = layoutInflater.inflate(R.layout.row_notebook, parent, false);
-            notebookRow.notebookTitle = (TextView) convertView.findViewById(R.id.notebookTitleTextView);
-            notebookRow.lastModified = (TextView) convertView.findViewById(R.id.lastModifiedTextView);
-            notebookRow.totalNotes = (TextView) convertView.findViewById(R.id.totalNotesTextView);
-
-            result = convertView;
-
-            convertView.setTag(notebookRow);
-        }else {
-            notebookRow = (NotebookRow) convertView.getTag();
-            result = convertView;
-        }
-
-        notebookRow.notebookTitle.setText(notebook.getTitle());
-        notebookRow.lastModified.setText(notebook.getUpdatedAt().toString());
-        notebookRow.totalNotes.setText(new Double(Math.random() * 100).toString());
+        notebookTitle.setText(notebook.getTitle());
+        lastModified.setText(new PrettyTime().format(notebook.getUpdatedAt()));
+        totalNotes.setText(new Integer(new Double(Math.random() * 10).intValue()).toString() + " notes");
 
 
-        return convertView;
-    }
-
-
-
-
-    private static class NotebookRow{
-        TextView notebookTitle;
-        TextView lastModified;
-        TextView totalNotes;
+        return rowView;
     }
 
 }

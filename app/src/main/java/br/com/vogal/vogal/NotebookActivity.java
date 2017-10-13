@@ -9,7 +9,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.vogal.adapter.NotebookAdapter;
 import br.com.vogal.model.Notebook;
+import br.com.vogal.model.Notebooks;
 import br.com.vogal.service.NotebookService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +21,7 @@ public class NotebookActivity extends AppCompatActivity {
 
     ArrayList<Notebook> notebookArrayList = new ArrayList<>();
 
-    ArrayAdapter arrayAdapter;
+    NotebookAdapter arrayAdapter;
 
     NotebookService notebookService;
 
@@ -29,32 +31,37 @@ public class NotebookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notebook);
 
         ListView listView = (ListView) findViewById(R.id.notebookList);
-        arrayAdapter = new ArrayAdapter(this, R.layout.row_notebook, notebookArrayList);
+        arrayAdapter = new NotebookAdapter(this, notebookArrayList);
+
+        listView.setAdapter(arrayAdapter);
 
         notebookService = new NotebookService(getApplicationContext());
 
-        Call<List<Notebook>> call = notebookService.getNotebooks();
+        Call<Notebooks> call = notebookService.getNotebooks();
 
         call.enqueue(handleNotebook());
 
     }
 
 
-    private Callback<List<Notebook>> handleNotebook(){
-        return new Callback<List<Notebook>>() {
+    private Callback<Notebooks> handleNotebook(){
+        return new Callback<Notebooks>() {
             @Override
-            public void onResponse(Call<List<Notebook>> call, Response<List<Notebook>> response) {
-                List<Notebook> notebookList = response.body();
-                if( notebookList.size() > 0){
-                    notebookArrayList.clear();
-                    notebookArrayList.addAll(notebookList);
+            public void onResponse(Call<Notebooks> call, Response<Notebooks> response) {
+                Notebooks notebooks = response.body();
+                if (notebooks != null){
+                    List<Notebook> notebookList = notebooks.getNotebooks();
+                    if( notebookList.size() > 0){
+                        notebookArrayList.clear();
+                        notebookArrayList.addAll(notebookList);
 
-                    arrayAdapter.notifyDataSetChanged();
+                        arrayAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Notebook>> call, Throwable t) {
+            public void onFailure(Call<Notebooks> call, Throwable t) {
                 Snackbar.make(findViewById(R.id.activity_notebook),"Failed to load notebooks",Snackbar.LENGTH_SHORT).show();
             }
         };

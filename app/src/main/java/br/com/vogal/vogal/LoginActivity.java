@@ -81,6 +81,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
 
         sessionService = new SessionService(getApplicationContext());
+
+        if(sessionService.isLogged()){
+            Intent i = new Intent(getApplicationContext(), NotebookActivity.class);
+            startActivity(i);
+        }
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
