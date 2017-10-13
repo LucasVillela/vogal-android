@@ -26,7 +26,8 @@ public class BaseService {
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .create();
         this.retrofit = new Retrofit.Builder()
-                .baseUrl("https://vogal-homolog.appspot.com/api/")
+                //.baseUrl("https://vogal-homolog.appspot.com/api/")
+                .baseUrl("http://10.0.2.2:8080/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

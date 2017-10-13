@@ -25,7 +25,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity" />
-        <activity android:name=".NotebookActivity"></activity>
+        <activity android:name=".NotebookActivity" />
+        <activity android:name=".NoteActivity"></activity>
     </application>
 
 </manifest>
