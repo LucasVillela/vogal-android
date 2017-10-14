@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import br.com.vogal.model.Note;
 import br.com.vogal.service.NoteService;
@@ -20,6 +23,7 @@ public class EditorActivity extends AppCompatActivity {
     String noteId;
     NoteService noteService;
     Note note;
+    EditText title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,29 @@ public class EditorActivity extends AppCompatActivity {
         mEditor = (RichEditor) findViewById(R.id.editor);
         mEditor.setEditorFontSize(22);
         mEditor.setPlaceholder("Insert text here...");
+
+        title = (EditText) findViewById(R.id.titleEditText);
+
+        title.setText(note.getTitle());
+
+        title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                note.setTitle(s.toString());
+                Call<Note> call = noteService.updateNote(note);
+                call.enqueue(handleUpdateNote());
+            }
+        });
 
         mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override public void onTextChange(String text) {
@@ -68,13 +95,33 @@ public class EditorActivity extends AppCompatActivity {
                 mEditor.setBold();
             }
         });
+
+        findViewById(R.id.action_italic).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setItalic();
+            }
+        });
+
+        findViewById(R.id.action_underline).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.setUnderline();
+            }
+        });
+
+
+        findViewById(R.id.action_todo).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mEditor.insertTodo();
+            }
+        });
+
     }
 
     private Callback<Note> handleUpdateNote(){
         return new Callback<Note>() {
             @Override
             public void onResponse(Call<Note> call, Response<Note> response) {
-                Snackbar.make(findViewById(R.id.activity_editor),"Saved",Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(R.id.activity_editor),"Saved",Snackbar.LENGTH_SHORT).show();
             }
 
             @Override

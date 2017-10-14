@@ -2,6 +2,7 @@ package br.com.vogal.vogal;
 
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.GridView;
@@ -24,6 +25,7 @@ public class NoteActivity extends AppCompatActivity {
     NoteService noteService;
     List<Note> arrayList = new ArrayList<>();
     String notebook;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,20 @@ public class NoteActivity extends AppCompatActivity {
 
         gridView.setAdapter(noteAdapter);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.gridSwipeRefresh);
 
+        handleRefresh();
         fillGrid();
 
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        fillGrid();
+    }
 
     private void fillGrid(){
         Call<Notes> call = noteService.getNotes();
@@ -52,7 +63,15 @@ public class NoteActivity extends AppCompatActivity {
     }
 
 
+    private void handleRefresh(){
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fillGrid();
+            }
+        });
+    }
 
 
     private Callback<Notes> handleNotes(){
@@ -71,6 +90,7 @@ public class NoteActivity extends AppCompatActivity {
                         }
 
                         noteAdapter.notifyDataSetChanged();
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }
             }
@@ -78,6 +98,7 @@ public class NoteActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Notes> call, Throwable t) {
                 Snackbar.make(findViewById(R.id.activity_note),"Failed to load notes",Snackbar.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         };
     }

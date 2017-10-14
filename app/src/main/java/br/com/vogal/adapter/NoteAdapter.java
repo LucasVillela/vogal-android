@@ -2,6 +2,8 @@ package br.com.vogal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +56,17 @@ public class NoteAdapter extends BaseAdapter {
         TextView noteText = (TextView) grid.findViewById(R.id.noteTextView);
 
         Note note = noteList.get(position);
+        String html = note.getTextHTML();
+        if(html == null){
+            html = "";
+        }
 
         title.setText(note.getTitle());
-        noteText.setText(note.getTextHTML());
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.N){
+            noteText.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT));
+        }else{
+            noteText.setText(Html.fromHtml(html));
+        }
 
         grid.setOnClickListener(getClickListener(position));
 
