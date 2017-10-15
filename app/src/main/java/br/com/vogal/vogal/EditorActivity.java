@@ -18,7 +18,8 @@ import retrofit2.Response;
 
 public class EditorActivity extends AppCompatActivity {
 
-
+    final int SAVE_AFTER = 10;
+    Integer counter;
     private RichEditor mEditor;
     String noteId;
     NoteService noteService;
@@ -30,6 +31,7 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        counter = 0;
         Intent note = getIntent();
         noteId = note.getStringExtra("note");
 
@@ -40,6 +42,21 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        Call<Note> call = noteService.updateNote(note);
+        call.enqueue(handleUpdateNote());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Call<Note> call = noteService.updateNote(note);
+        call.enqueue(handleUpdateNote());
+    }
 
     private void mountEditor(){
         mEditor = (RichEditor) findViewById(R.id.editor);
@@ -72,8 +89,11 @@ public class EditorActivity extends AppCompatActivity {
         mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override public void onTextChange(String text) {
                 note.setTextHTML(text);
-                Call<Note> call = noteService.updateNote(note);
-                call.enqueue(handleUpdateNote());
+                counter +=1;
+                if(counter > SAVE_AFTER){
+                    Call<Note> call = noteService.updateNote(note);
+                    call.enqueue(handleUpdateNote());
+                }
             }
         });
 

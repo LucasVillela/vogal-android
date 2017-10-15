@@ -7,7 +7,9 @@ import br.com.vogal.model.Note;
 import br.com.vogal.model.Notebooks;
 import br.com.vogal.model.Notes;
 import br.com.vogal.model.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -51,4 +53,8 @@ public interface VogalClient {
     Call<Note> putNote(@Header("Authorization") String authorization,
                        @Path("id") String noteId,
                        @Body Note note);
+
+    @POST("notes")
+    Call<ResponseBody> postNote(@Header("Authorization") String authorization,
+                                @Body Note note);
 }

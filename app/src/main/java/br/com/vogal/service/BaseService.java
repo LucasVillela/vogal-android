@@ -28,6 +28,7 @@ public class BaseService {
         this.retrofit = new Retrofit.Builder()
                 //.baseUrl("https://vogal-homolog.appspot.com/api/")
                 .baseUrl("http://10.0.2.2:8080/api/")
+//                .baseUrl("http://192.168.1.103:8080/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

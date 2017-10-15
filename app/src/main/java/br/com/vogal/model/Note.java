@@ -30,6 +30,22 @@ public class Note {
     @SerializedName("is_active")
     private Boolean isActive;
 
+    public Note(){
+    }
+
+    public static Note basicNote(String notebook){
+        Note note = new Note();
+
+        note.setNotebook(notebook);
+        note.setTextHTML("");
+        note.setTitle("");
+        note.setTextMarkdown("");
+        note.setTextRaw("");
+        note.setAlign("left");
+
+        return note;
+    }
+
     public String getId() {
         return id;
     }

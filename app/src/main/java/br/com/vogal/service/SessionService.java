@@ -19,7 +19,7 @@ public class SessionService {
 
     public SessionService(Context context){
         this.context = context;
-        this.sharedPreferences = context.getSharedPreferences(PREF_NAME, 0);
+        this.sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         this.editor = this.sharedPreferences.edit();
     }
 
